@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PHP File Viewer</title>
+</head>
+<body>
+    <h1>PHP File Viewer</h1>
+    <iframe src="https://your-php-hosting-service.com/your-php-file.php" width="100%" height="500px" frameborder="0"></iframe>
+</body>
+</html>
