@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Creator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        .file-list {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>File Creator</h1>
+        <div class="form-group">
+            <label for="file-name">File Name:</label>
+            <input type="text" id="file-name" class="form-control">
+        </div>
+        <button id="create-file-btn" class="btn btn-primary">Create File</button>
+        <hr>
+        <h3>File List</h3>
+        <ul id="file-list" class="list-group"></ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Array to store file names
+            var files = [];
+
+            // Function to refresh the file list
+            function refreshFileList() {
+                var fileList = $('#file-list');
+                fileList.empty();
+
+                for (var i = 0; i < files.length; i++) {
+                    var listItem = $('<li class="list-group-item"></li>');
+                    listItem.text(files[i]);
+                    listItem.append('<button class="btn btn-sm btn-danger delete-file-btn">Delete</button>');
+
+                    fileList.append(listItem);
+                }
+            }
+
+            // Function to create a new file
+            function createFile() {
+                var fileName = $('#file-name').val();
+                if (fileName) {
+                    files.push(fileName);
+                    refreshFileList();
+                    $('#file-name').val('');
+                }
+            }
+
+            // Function to delete a file
+            function deleteFile(index) {
+                files.splice(index, 1);
+                refreshFileList();
+            }
+
+            // Event handler for creating a file
+            $('#create-file-btn').click(createFile);
+
+            // Event delegation for deleting a file
+            $('#file-list').on('click', '.delete-file-btn', function() {
+                var index = $(this).closest('li').index();
+                deleteFile(index);
+            });
+        });
+    </script>
+</body>
+</html>
