@@ -1,52 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Directory Listing</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
+  <title>Time Comparison</title>
+  <script>
+    function displayTime() {
+      var currentTime = new Date();
+      var hours = currentTime.getHours();
+      var minutes = currentTime.getMinutes();
+      var seconds = currentTime.getSeconds();
+
+      // Check the actual time
+      var actualTime = new Date();
+      var actualHours = actualTime.getHours();
+      var actualMinutes = actualTime.getMinutes();
+      var actualSeconds = actualTime.getSeconds();
+
+      // Display current time
+      var currentTimeString = hours + ":" + minutes + ":" + seconds;
+      document.getElementById('time').innerHTML = "Current Time: " + currentTimeString;
+
+      // Calculate time difference
+      var timeDifference = ((hours - actualHours) * 60 + (minutes - actualMinutes)) * 60 + (seconds - actualSeconds);
+      var timeStatus = (timeDifference >= 0) ? "ahead" : "behind";
+      var timeDifferenceString = Math.abs(timeDifference) + " seconds " + timeStatus + " actual time.";
+      document.getElementById('time-diff').innerHTML = "Your clock is " + timeDifferenceString;
     }
-    h1 {
-      text-align: center;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      margin-bottom: 5px;
-    }
-    a {
-      text-decoration: none;
-      color: #007bff;
-    }
-  </style>
+
+    // Update time every second
+    setInterval(displayTime, 1000);
+  </script>
 </head>
 <body>
-  <h1>Directory Listing</h1>
-  <ul id="directoryList"></ul>
-
-  <script>
-    fetch('/api/directory')
-      .then(response => response.json())
-      .then(data => {
-        const directoryList = document.getElementById('directoryList');
-        data.forEach(item => {
-          const listItem = document.createElement('li');
-          const link = document.createElement('a');
-          link.href = item.url;
-          link.textContent = item.name;
-          listItem.appendChild(link);
-          directoryList.appendChild(listItem);
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching directory:', error);
-        const directoryList = document.getElementById('directoryList');
-        directoryList.innerHTML = '<li>Failed to fetch directory.</li>';
-      });
-  </script>
+  <h1>Current Time and Comparison</h1>
+  <div id="time"></div>
+  <div id="time-diff"></div>
 </body>
 </html>
