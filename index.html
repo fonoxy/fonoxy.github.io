@@ -1,38 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Time Comparison</title>
-  <script>
-    function displayTime() {
-      var currentTime = new Date();
-      var hours = currentTime.getHours();
-      var minutes = currentTime.getMinutes();
-      var seconds = currentTime.getSeconds();
-
-      // Check the actual time
-      var actualTime = new Date();
-      var actualHours = actualTime.getHours();
-      var actualMinutes = actualTime.getMinutes();
-      var actualSeconds = actualTime.getSeconds();
-
-      // Display current time
-      var currentTimeString = hours + ":" + minutes + ":" + seconds;
-      document.getElementById('time').innerHTML = "Current Time: " + currentTimeString;
-
-      // Calculate time difference
-      var timeDifference = ((hours - actualHours) * 60 + (minutes - actualMinutes)) * 60 + (seconds - actualSeconds);
-      var timeStatus = (timeDifference >= 0) ? "ahead" : "behind";
-      var timeDifferenceString = Math.abs(timeDifference) + " seconds " + timeStatus + " actual time.";
-      document.getElementById('time-diff').innerHTML = "Your clock is " + timeDifferenceString;
+  <meta charset="UTF-8">
+  <title>Camera Feed</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
     }
-
-    // Update time every second
-    setInterval(displayTime, 1000);
-  </script>
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
 </head>
 <body>
-  <h1>Current Time and Comparison</h1>
-  <div id="time"></div>
-  <div id="time-diff"></div>
+  <video id="videoElement" autoplay></video>
+
+  <script>
+    // Accessing the user's camera
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        var video = document.getElementById('videoElement');
+        video.srcObject = stream;
+      })
+      .catch(function(err) {
+        console.error('Error accessing the camera:', err);
+      });
+  </script>
 </body>
 </html>
